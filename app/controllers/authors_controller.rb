@@ -3,14 +3,16 @@ class AuthorsController < ApplicationController
     @author = Author.find(params[:id])
   end
 
-  def new
-    @author = Author.new
-  end
-
   def create
-    @author = Author.create(author_params)
+    @author = Author.new(author_params)
+ 
+    if @author.valid?
+      @author.save
+      redirect_to author_path(@author)
+    else
 
-    redirect_to author_path(@author)
+      render :new
+    end
   end
 
   private
